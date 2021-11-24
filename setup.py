@@ -11,7 +11,7 @@ with open('flask_saml2/version.py') as version_file:
 
 
 setup_kwargs = dict(
-    name='flask-saml2',
+    name='flask-saml2-fork',
     version=version_str,
     license='MIT',
 
@@ -20,7 +20,7 @@ setup_kwargs = dict(
 
     description='SAML 2.0 IdP and SP for Flask and Python 3',
     long_description=readme,
-    url='http://github.com/timheap/flask-saml2',
+    url='https://github.com/infobyte/flask-saml2',
 
     install_requires=[
         'attrs>=18.1.0',
