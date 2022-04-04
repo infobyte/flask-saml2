@@ -1,6 +1,7 @@
 import datetime
 from typing import Mapping, Optional
 from urllib.parse import urlencode
+from datetime import timedelta
 
 import attr
 import iso8601
@@ -243,7 +244,7 @@ class IdPHandler:
 
         if response.conditions is not None:
             # Validate the NotBefore/NotOnOrAfter tags
-            now = utcnow()
+            now = (utcnow() + timedelta(minutes=1))
             not_before = response.conditions.get('NotBefore')
             not_on_or_after = response.conditions.get('NotOnOrAfter')
             try:
