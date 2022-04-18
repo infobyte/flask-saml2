@@ -1,6 +1,6 @@
 import datetime
 from typing import Mapping, Optional
-from urllib.parse import urlencode
+from urllib.parse import urlencode, parse_qsl, urlparse, urlunparse
 from datetime import timedelta
 
 import attr
@@ -202,8 +202,13 @@ class IdPHandler:
             query = sign_query_parameters(self.sp.get_sp_signer(), parameters)
         else:
             query = urlencode(parameters)
-
-        return f'{url}?{query}'
+        query_dict = dict(parse_qsl(query))
+        url_data = urlparse(url)
+        if url_data.query:
+            query_dict.update(dict(parse_qsl(url_data.query)))
+        new_query = urlencode(query_dict)
+        url_data = url_data._replace(query=new_query)
+        return urlunparse(url_data)
 
     def decode_saml_string(self, saml_string: str) -> bytes:
         """Decode an incoming SAMLResponse into an XML string."""
