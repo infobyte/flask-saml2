@@ -90,6 +90,9 @@ class AssertionConsumer(SAML2View):
                 continue
             except UserNotAuthorized:
                 return self.sp.render_template('flask_saml2_sp/user_not_authorized.html')
+        logger.error("Couldn't  handle assertion. Check the assertion config in the service provider and identity "
+                     "provider")
+        return Response(status=400)
 
 
 class Metadata(SAML2View):
