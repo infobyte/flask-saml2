@@ -7,7 +7,8 @@ import logging
 from typing import ClassVar, Sequence, Tuple, Union
 from urllib.parse import urlencode
 
-import OpenSSL.crypto
+from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.primitives.asymmetric import padding as asym_padding
 
 from flask_saml2.types import X509, PKey, XmlNode
 
@@ -98,8 +99,8 @@ class RsaSha1Signer(Signer):
         self.key = key
 
     def __call__(self, data: bytes):
-        data = OpenSSL.crypto.sign(self.key, data, "sha1")
-        return base64.b64encode(data).decode('ascii')
+        sig = self.key.to_cryptography_key().sign(data, asym_padding.PKCS1v15(), hashes.SHA1())
+        return base64.b64encode(sig).decode('ascii')
 
 
 class RsaSha256Signer(Signer):
@@ -109,8 +110,8 @@ class RsaSha256Signer(Signer):
         self.key = key
 
     def __call__(self, data: bytes):
-        data = OpenSSL.crypto.sign(self.key, data, "sha256")
-        return base64.b64encode(data).decode('ascii')
+        sig = self.key.to_cryptography_key().sign(data, asym_padding.PKCS1v15(), hashes.SHA256())
+        return base64.b64encode(sig).decode('ascii')
 
 
 class SignedInfoTemplate(XmlTemplate):
