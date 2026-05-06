@@ -1,0 +1,8 @@
+{% extends 'flask_saml2_sp/base.html' %}
+
+{% block content %}
+<h1>Login failed</h1>
+<p>Access could not be granted. This may be caused by a misconfiguration in your Identity Provider or insufficient permissions.</p>
+<p>Please contact your administrator to verify the SAML configuration. You can also refer to the <a href="https://docs.faradaysec.com/SAML/#saml-single-sign-on-sso">SAML documentation</a> for setup instructions.</p>
+<p><a href="{{ return_url }}">Back to login</a></p>
+{% endblock %}

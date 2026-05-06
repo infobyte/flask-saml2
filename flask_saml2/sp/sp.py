@@ -174,6 +174,12 @@ class ServiceProvider:
 
         return None
 
+    def get_login_page_url(self) -> str:
+        """The URL of the application login page, used in error pages to let
+        users navigate back. Override in subclasses to point to your login UI.
+        """
+        return '/'
+
     def get_logout_return_url(self) -> Optional[str]:
         """The URL to redirect users to once they have logged out.
         """
